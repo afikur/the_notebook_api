@@ -21,7 +21,7 @@ paths:
       - "processor"
       summary: "Finds Processors"
       description: "get all processors"
-      operationId: "findProcessor"
+      operationId: "findProcessors"
       produces:
       - "application/xml"
       - "application/json"
@@ -88,7 +88,7 @@ paths:
         400:
           description: "Invalid ID supplied"
         404:
-          description: "Pet not found"
+          description: "Processor not found"
         405:
           description: "Validation exception"
 
@@ -111,8 +111,105 @@ paths:
         400:
           description: "Invalid ID supplied"
         404:
-          description: "Pet not found"
+          description: "Processor not found"
 
+  /brands:
+    get:
+      tags:
+      - "brand"
+      summary: "Finds brands"
+      description: "get all brands"
+      operationId: "findBrands"
+      produces:
+      - "application/xml"
+      - "application/json"
+
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Brand"
+        400:
+          description: "Invalid status value"
+    post:
+      tags:
+      - "brand"
+      summary: "Add a new brand to the store"
+      description: ""
+      operationId: "addBrand"
+      consumes:
+      - "application/json"
+      - "application/xml"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Brand object that needs to be added to the store"
+        required: true
+        schema:
+          $ref: "#/definitions/Brand"
+      responses:
+        404:
+          description: "Invalid input"
+
+  /brands/{id}:
+    put:
+      tags:
+      - "brand"
+      summary: "Update an existing brand"
+      description: ""
+      operationId: "updateBrand"
+      consumes:
+      - "application/json"
+      - "application/xml"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - in: "path"
+        type: "string"
+        name: "id"
+        required: true
+        description: ""
+
+      - in: "body"
+        name: "body"
+        description: "processor object that needs to be added to the store"
+        required: true
+        schema:
+          $ref: "#/definitions/Brand"
+      responses:
+        400:
+          description: "Invalid ID supplied"
+        404:
+          description: "Processor not found"
+        405:
+          description: "Validation exception"
+
+    delete:
+      tags:
+      - "brand"
+      summary: "Deletes a brand"
+      description: ""
+      operationId: "deleteBrand"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "Brand id to delete"
+        required: true
+        type: "string"
+      responses:
+        400:
+          description: "Invalid ID supplied"
+        404:
+          description: "Brand not found"
 
 definitions:
   Processor:
@@ -123,6 +220,15 @@ definitions:
       name:
         type: "string"
         example: "core i7"
+
+  Brand:
+    type: "object"
+    required:
+    - "name"
+    properties:
+      name:
+        type: "string"
+        example: "Apple"
 
 externalDocs:
   description: "Find out more about Swagger"
