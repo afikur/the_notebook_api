@@ -1,0 +1,129 @@
+swagger: "2.0"
+info:
+  description: ""
+  version: "1.0.0"
+  title: "The Notebook API"
+  termsOfService: "http://swagger.io/terms/"
+  contact:
+    email: "me.afikur@gmail.com"
+  license:
+    name: "Apache 2.0"
+    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+host: "localhost:8000"
+basePath: "/api/"
+
+schemes:
+- "http"
+paths:
+  /processors:
+    get:
+      tags:
+      - "processor"
+      summary: "Finds Processors"
+      description: "get all processors"
+      operationId: "findProcessor"
+      produces:
+      - "application/xml"
+      - "application/json"
+
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Processor"
+        400:
+          description: "Invalid status value"
+    post:
+      tags:
+      - "processor"
+      summary: "Add a new processor to the store"
+      description: ""
+      operationId: "addProcessor"
+      consumes:
+      - "application/json"
+      - "application/xml"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "processor object that needs to be added to the store"
+        required: true
+        schema:
+          $ref: "#/definitions/Processor"
+      responses:
+        404:
+          description: "Invalid input"
+
+  /processors/{id}:
+    put:
+      tags:
+      - "processor"
+      summary: "Update an existing processor"
+      description: ""
+      operationId: "updateProcessor"
+      consumes:
+      - "application/json"
+      - "application/xml"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - in: "path"
+        type: "string"
+        name: "id"
+        required: true
+        description: ""
+
+      - in: "body"
+        name: "body"
+        description: "processor object that needs to be added to the store"
+        required: true
+        schema:
+          $ref: "#/definitions/Processor"
+      responses:
+        400:
+          description: "Invalid ID supplied"
+        404:
+          description: "Pet not found"
+        405:
+          description: "Validation exception"
+
+    delete:
+      tags:
+      - "processor"
+      summary: "Deletes a processor"
+      description: ""
+      operationId: "deleteProcessor"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "Processor id to delete"
+        required: true
+        type: "string"
+      responses:
+        400:
+          description: "Invalid ID supplied"
+        404:
+          description: "Pet not found"
+
+
+definitions:
+  Processor:
+    type: "object"
+    required:
+    - "name"
+    properties:
+      name:
+        type: "string"
+        example: "core i7"
+
+externalDocs:
+  description: "Find out more about Swagger"
+  url: "http://swagger.io"
