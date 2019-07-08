@@ -210,6 +210,53 @@ paths:
           description: "Invalid ID supplied"
         404:
           description: "Brand not found"
+  /notebooks:
+    post:
+      tags:
+      - "notebook"
+      summary: "add notebook"
+      description: ""
+      operationId: "searchNotebooks"
+      consumes:
+      - "application/json"
+      - "application/xml"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "notebook object to create notebook"
+        required: true
+        schema:
+          $ref: "#/definitions/Notebook"
+      responses:
+        404:
+          description: "Invalid input"
+
+  /notebooks/search:
+    post:
+      tags:
+      - "notebook"
+      summary: "get notebooks"
+      description: ""
+      operationId: "addNotebook"
+      consumes:
+      - "application/json"
+      - "application/xml"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "notebook object to find notebook"
+        required: true
+        schema:
+          $ref: "#/definitions/SearchNotebook"
+      responses:
+        404:
+          description: "Invalid input"
 
 definitions:
   Processor:
@@ -229,6 +276,43 @@ definitions:
       name:
         type: "string"
         example: "Apple"
+  Notebook:
+    type: "object"
+    required:
+    - "name"
+    - "brand"
+    - "processor"
+    properties:
+      name:
+        type: "string"
+        example: "Macbook Air"
+      brand:
+        type: "string"
+      processor:
+        type: "string"
+
+
+  SearchNotebook:
+    type: "object"
+
+    properties:
+      name:
+        type: "string"
+        example: "Apple"
+      order:
+        type: "string"
+        example: "desc"
+      sortBy:
+        type: "string"
+        example: "name"
+      limit:
+        type: "number"
+        example: 10
+      skip:
+        type: "number"
+        example: 10
+      filters:
+        type: "object"
 
 externalDocs:
   description: "Find out more about Swagger"
