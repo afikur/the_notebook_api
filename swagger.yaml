@@ -286,12 +286,29 @@ definitions:
       name:
         type: "string"
         example: "Macbook Air"
-      brand:
-        type: "string"
       processor:
         type: "string"
-
-
+        example: "Processor Id"
+      brand:
+        type: "string"
+        example: "Brand Id"
+      image:
+        type: "array"
+        items:
+          type: "string"
+          example: "http://someimageurlhere.com/images/abc.png"
+      available:
+        type: "boolean"
+        exmaple: true
+      description:
+        type: "string"
+        example: "description goes here"
+      price:
+        type: number,
+        example: 12500
+      publish:
+        type: "boolean"
+        example: true
   SearchNotebook:
     type: "object"
 

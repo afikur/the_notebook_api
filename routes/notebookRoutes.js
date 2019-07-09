@@ -8,8 +8,8 @@ router.post('/', async (req, res) => {
   if(error) {
     res.status(400).send(error.details[0].message);
   }
-  const {name, processor, brand} = req.body;
-  let notebook = new Notebook({name, processor, brand});
+  const {name, processor, brand, image, available, description, price, publish} = req.body;
+  let notebook = new Notebook({name, processor, brand, image, available, description, price, publish});
   notebook = await notebook.save();
 
   res.send(notebook);
@@ -22,8 +22,8 @@ router.post('/search', async (req, res) => {
   let skip = parseInt(req.body.skip);
   let findArgs = {};
 
-  for(let key in req.body.filters){
-    if(req.body.filters[key].length >0 ){
+  for(let key in req.body.filters) {
+    if(req.body.filters[key].length > 0) {
       if(key === 'price'){
         findArgs[key] = {
           $gte: req.body.filters[key][0],
@@ -35,24 +35,24 @@ router.post('/search', async (req, res) => {
     }
   }
 
-  // findArgs['publish'] = true;
+  findArgs['publish'] = true;
 
-  Notebook.
-  find(findArgs).
-  populate('brand').
-  populate('processor').
-  sort([[sortBy,order]]).
-  skip(skip).
-  limit(limit).
-  exec((err,notebooks)=>{
-    if(err) {
-      return res.status(400).send(err);
-    }
-    res.send({
-      size: notebooks.length,
-      notebooks
+  Notebook
+    .find(findArgs)
+    .populate('brand')
+    .populate('processor')
+    .sort([[sortBy,order]])
+    .skip(skip)
+    .limit(limit)
+    .exec((err,notebooks)=>{
+      if(err) {
+        return res.status(400).send(err);
+      }
+      res.send({
+        size: notebooks.length,
+        notebooks
+      })
     })
-  })
 });
 
 module.exports = router;
